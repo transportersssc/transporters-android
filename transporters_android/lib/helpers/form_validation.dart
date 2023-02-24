@@ -20,6 +20,30 @@ class FormValidation {
       this.confirmPassword,
       this.error});
 
+  bool validateAdditionalDetails() {
+    if (firstName!.isEmpty) {
+      error = "First Name is empty";
+      return false;
+    }
+
+    if (lastName!.isEmpty) {
+      error = "Last Name is empty";
+      return false;
+    }
+
+    if (phone!.isEmpty) {
+      error = 'Phone Number cannot be empty';
+      return false;
+    }
+
+    if (dateofBirth!.isEmpty) {
+      error = 'Date of Birth cannot be empty';
+      return false;
+    }
+
+    return true;
+  }
+
   bool validateSignup() {
     RegExp emailRegEx = RegExp(
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
@@ -36,18 +60,13 @@ class FormValidation {
       return false;
     }
 
-    if (firstName!.isEmpty) {
-      error = "First Name is empty";
-      return false;
-    }
-
-    if (lastName!.isEmpty) {
-      error = "Last Name is empty";
-      return false;
-    }
-
     if (confirmPassword!.isEmpty) {
       error = "Confirm Password is empty";
+      return false;
+    }
+
+    if (username!.isEmpty) {
+      error = "Username is empty";
       return false;
     }
 

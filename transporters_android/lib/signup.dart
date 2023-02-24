@@ -15,12 +15,10 @@ class _SignUpPageState extends State<SignUpPage> {
   bool _confirmPasswordInvisible = true;
 
   // Text Editing Controller for each Text Field
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   bool error = false;
   String errorText = '';
 
@@ -39,6 +37,12 @@ class _SignUpPageState extends State<SignUpPage> {
               controller: _emailController,
               decoration: const InputDecoration(
                 hintText: 'Email',
+              ),
+            ),
+            TextFormField(
+              controller: _usernameController,
+              decoration: const InputDecoration(
+                hintText: 'Username',
               ),
             ),
             TextFormField(
@@ -85,26 +89,15 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
               ),
             ),
-            TextFormField(
-              controller: _firstNameController,
-              decoration: const InputDecoration(
-                hintText: 'First Name',
-              ),
-            ),
-            TextFormField(
-              controller: _lastNameController,
-              decoration: const InputDecoration(
-                hintText: 'Last Name',
-              ),
-            ),
             if (error)
               SizedBox(
                 height: 100,
                 child: Center(
-                    child: Text(
-                  errorText,
-                  style: const TextStyle(color: Colors.red),
-                )),
+                  child: Text(
+                    errorText,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                ),
               ),
             SizedBox(
               width: double.infinity,
@@ -113,9 +106,8 @@ class _SignUpPageState extends State<SignUpPage> {
                   FormValidation data = FormValidation(
                     email: _emailController.text,
                     password: _passwordController.text,
-                    firstName: _firstNameController.text,
-                    lastName: _lastNameController.text,
                     confirmPassword: _confirmPasswordController.text,
+                    username: _usernameController.text,
                   );
 
                   bool dataValidated = data.validateSignup();
@@ -125,8 +117,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         builder: (context) => AdditionalDetails(
                           email: _emailController.text,
                           password: _passwordController.text,
-                          firstName: _firstNameController.text,
-                          lastName: _lastNameController.text,
+                          username: _usernameController.text,
                         ),
                       ),
                     );
@@ -152,7 +143,5 @@ class _SignUpPageState extends State<SignUpPage> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
-    _firstNameController.dispose();
-    _lastNameController.dispose();
   }
 }
