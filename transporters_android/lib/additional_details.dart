@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:transporters_android/api/register_customer.dart';
 import 'package:transporters_android/helpers/form_validation.dart';
 
 import 'home_page.dart';
@@ -22,6 +24,58 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
   final DateTime date = DateTime.now();
   bool error = false;
   String errorText = '';
+  final _formKey = GlobalKey<FormState>();
+
+  void register() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Container(
+          color: Colors.black.withOpacity(0.5),
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
+    );
+    await registerCustomer(
+            email: widget.email!,
+            password: widget.password!,
+            firstName: _firstNameController.text,
+            lastName: _lastNameController.text,
+            dateOfBirth: _dobController.text,
+            username: widget.username!,
+            phone: _phoneController.text)
+        .then((value) {
+      if (value == "201") {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const Homepage(),
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Oops..'),
+              content: const Text('Something went wrong!!!'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Close'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+      print(value);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,71 +86,73 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextFormField(
-              controller: _firstNameController,
-              decoration: const InputDecoration(
-                hintText: 'First Name',
-              ),
-            ),
-            TextFormField(
-              controller: _lastNameController,
-              decoration: const InputDecoration(
-                hintText: 'Last Name',
-              ),
-            ),
-            TextFormField(
-              controller: _phoneController,
-              decoration: const InputDecoration(
-                hintText: 'Phone Number',
-              ),
-            ),
-            TextFormField(
-              controller: _dobController,
-              decoration: const InputDecoration(
-                hintText: 'Date of Birth',
-              ),
-              onTap: _showDatePicker,
-            ),
-            if (error)
-              SizedBox(
-                height: 100,
-                child: Center(
-                  child: Text(
-                    errorText,
-                    style: const TextStyle(color: Colors.red),
-                  ),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                controller: _firstNameController,
+                decoration: const InputDecoration(
+                  hintText: 'First Name',
                 ),
-              ),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  FormValidation data = FormValidation(
-                    firstName: _firstNameController.text,
-                    lastName: _lastNameController.text,
-                    phone: _phoneController.text,
-                    dateofBirth: _dobController.text,
-                  );
-
-                  bool dataValidated = data.validateAdditionalDetails();
-                  if (dataValidated) {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const Homepage(),
-                      ),
-                    );
-                  } else {
-                    error = true;
-                    errorText = data.error.toString();
-                    setState(() {});
+                validator: (firstName) {
+                  if (firstName!.isEmpty) {
+                    return "First Name cannot be empty";
                   }
                 },
-                child: const Text('Finish'),
               ),
-            ),
-          ],
+              TextFormField(
+                controller: _lastNameController,
+                decoration: const InputDecoration(
+                  hintText: 'Last Name',
+                ),
+                validator: (lastName) {
+                  if (lastName!.isEmpty) {
+                    return "Last Name cannot be empty";
+                  }
+                },
+              ),
+              TextFormField(
+                controller: _phoneController,
+                decoration: const InputDecoration(
+                  hintText: 'Phone Number',
+                ),
+                validator: (phone) {
+                  RegExp phoneRegEx = RegExp(
+                      r"^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$");
+                  if (phone!.isEmpty) {
+                    return "Phone Number cannot be empty";
+                  }
+                  if (!phoneRegEx.hasMatch(phone)) {
+                    return "Phone Number is not in format";
+                  }
+                },
+              ),
+              TextFormField(
+                controller: _dobController,
+                decoration: const InputDecoration(
+                  hintText: 'Date of Birth',
+                ),
+                validator: (dob) {
+                  if (dob!.isEmpty) {
+                    return "Date of Birth cannot be empty";
+                  }
+                },
+                onTap: _showDatePicker,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      register();
+                    }
+                  },
+                  child: const Text('Finish'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -104,13 +160,13 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
 
   void _showDatePicker() {
     showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(1960),
-            lastDate: DateTime.now())
-        .then((value) {
+      context: context,
+      initialDate: DateTime.now().subtract(const Duration(days: 10 * 365)),
+      firstDate: DateTime(1960),
+      lastDate: DateTime.now().subtract(const Duration(days: 10 * 365)),
+    ).then((value) {
       setState(() {
-        _dobController.text = "${value!.month} - ${value.day} - ${value.year}";
+        _dobController.text = "${value!.month}-${value.day}-${value.year}";
       });
     });
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transporters_android/home_page.dart';
+import 'package:transporters_android/signup.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: const Homepage(),
+      home: const SignUpPage(),
     );
   }
 }

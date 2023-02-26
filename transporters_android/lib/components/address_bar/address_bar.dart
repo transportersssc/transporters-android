@@ -12,6 +12,7 @@ class AddressBar extends StatefulWidget {
 }
 
 class _AddressBarState extends State<AddressBar> {
+  bool isFavorite = false;
   Future<void> _navigateAndDisplaySelection(BuildContext context) async {
     final result = await Navigator.push(
       context,
@@ -27,7 +28,6 @@ class _AddressBarState extends State<AddressBar> {
 
   @override
   Widget build(BuildContext context) {
-    bool isFavorite = false;
     return TextFormField(
       controller: widget.controller,
       decoration: InputDecoration(

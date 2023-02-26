@@ -1,7 +1,7 @@
 import 'package:http/http.dart';
 
 void main(List<String> args) {
-  loginCustomer(email: "sanjayseka2022@gmail.com", password: "12345678");
+  loginCustomer(email: "sumeet@test.com", password: "Password@123");
 }
 
 const urlPrefix = 'https://transporters-api-dev.up.railway.app/api';
@@ -13,7 +13,7 @@ Future<void> loginCustomer(
 
   var json_body = '{ "username": "$email", "password": "$password" }';
 
-  final reponse = await get(url, headers: headers);
+  final reponse = await post(url, headers: headers, body: json_body);
   print('Status Code: ${reponse.statusCode}');
   print('Body: ${reponse.body}');
 }
