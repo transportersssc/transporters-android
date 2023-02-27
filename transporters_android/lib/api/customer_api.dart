@@ -1,14 +1,7 @@
 import 'package:http/http.dart';
 
 void main(List<String> args) {
-  registerCustomer(
-      email: "sumeet3@gmail.com",
-      password: "Password@123",
-      firstName: "Sumeet",
-      lastName: "Shrivastava",
-      dateOfBirth: "2-8-1996",
-      username: "qwertty12",
-      phone: "2262014677");
+  loginCustomer(email: "sumeet7@gmail.com", password: "Password@123");
 }
 
 const urlPrefix = 'https://transporters-api-dev.up.railway.app/api';
@@ -32,9 +25,6 @@ Future<String> registerCustomer({
       '{ "email": "$email", "password": "$password", "firstName": "$firstName", "lastName": "$lastName", "dateOfBirth": "$dateOfBirth" , "username": "$username", "phone": "$phone"}';
 
   final response = await post(url, headers: headers, body: json_body);
-  print(response.statusCode);
-  print(response.request);
-  print(response.body);
   return response.statusCode.toString();
 }
 
@@ -50,3 +40,14 @@ Future<String> checkCustomer({required String email}) async {
 }
 
 // Login Customer
+
+Future<String> loginCustomer(
+    {required String email, required String password}) async {
+  final url = Uri.parse('$urlPrefix/v1/authentication');
+  final headers = {"Content-type": "application/json"};
+
+  var json_body = '{ "username": "$email", "password": "$password" }';
+
+  final response = await post(url, headers: headers, body: json_body);
+  return response.statusCode.toString();
+}

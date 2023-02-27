@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:transporters_android/api/register_customer.dart';
+import 'package:transporters_android/api/customer_api.dart';
 import 'package:transporters_android/helpers/form_validation.dart';
 
 import 'home_page.dart';

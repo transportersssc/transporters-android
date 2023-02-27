@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:transporters_android/api/register_customer.dart';
+import 'package:transporters_android/api/customer_api.dart';
 
 import 'additional_details.dart';
 
