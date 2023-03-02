@@ -49,5 +49,5 @@ Future<String> loginCustomer(
   var json_body = '{ "username": "$email", "password": "$password" }';
 
   final response = await post(url, headers: headers, body: json_body);
-  return response.statusCode.toString();
+  return response.body;
 }
