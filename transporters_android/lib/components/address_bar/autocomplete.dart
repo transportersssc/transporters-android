@@ -23,6 +23,7 @@ class _AutocompletePlacesState extends State<AutocompletePlaces> {
       {
         "input": query,
         "key": apiKey,
+        "components": "country:CA",
       },
     );
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:transporters_android/login.dart';
+import 'package:transporters_android/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: const LoginPage(),
+      home: Homepage(),
     );
   }
 }

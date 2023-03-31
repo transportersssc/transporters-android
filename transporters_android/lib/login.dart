@@ -36,9 +36,9 @@ class _LoginPageState extends State<LoginPage> {
     await loginCustomer(
             email: _emailController.text, password: _passwordController.text)
         .then((response) async {
-          final decodedResponse = jsonDecode(response);
+      final decodedResponse = jsonDecode(response);
       if (decodedResponse['success']) {
-        final storage = new FlutterSecureStorage();
+        const storage = FlutterSecureStorage();
         await storage.write(key: 'token', value: decodedResponse['token']);
         Navigator.of(context).push(
           MaterialPageRoute(

@@ -20,7 +20,6 @@ class LocationListTile extends StatelessWidget {
         ListTile(
           onTap: press,
           horizontalTitleGap: 0,
-          leading: SvgPicture.asset("assets/icons/location_pin.svg"),
           title: Text(
             location,
             maxLines: 2,
