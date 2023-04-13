@@ -1,7 +1,17 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:transporters_android/login.dart';
+import 'package:transporters_android/functions/firebase_services.dart';
+import 'package:transporters_android/functions/services.dart';
 
-void main() {
+import 'package:transporters_android/views/login.dart';
+
+void main() async {
+  /// Initilizing firebase messaging for notifications
+  await FirebaseService.initializeFirebase();
+  await FirebaseService.getDeviceToken();
+  await FirebaseService.initializeFirebaseMessaging();
+  await FirebaseService.initializeFlutterLocalNotifications();
+
   runApp(const MyApp());
 }
 
@@ -10,6 +20,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
+    final pushNotification = PushNotificationService(_firebaseMessaging);
+    pushNotification.initialise();
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -18,7 +32,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: const LoginPage(),
+      home: LoginPage(),
     );
   }
 }
