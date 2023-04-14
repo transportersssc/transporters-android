@@ -1,17 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get_it/get_it.dart';
 import 'package:transporters_android/components/address_bar/address_bar.dart';
+import 'package:transporters_android/components/type_selector/type_selector.dart';
+import 'package:transporters_android/stores/item_type_store.dart';
+import 'package:transporters_android/views/login.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
+
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  final ItemTypeStore store = GetIt.instance<ItemTypeStore>();
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height * 0.81;
-    final _fromController = TextEditingController();
-    final _toController = TextEditingController();
+    final fromController = TextEditingController();
+    final toController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Homepage'),
         automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () => logoutUser(context),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -45,11 +64,11 @@ class Homepage extends StatelessWidget {
             child: Column(
               children: [
                 AddressBar(
-                  controller: _fromController,
+                  controller: fromController,
                   title: "From",
                 ),
                 AddressBar(
-                  controller: _toController,
+                  controller: toController,
                   title: "To`",
                 ),
                 const SizedBox(
@@ -67,59 +86,7 @@ class Homepage extends StatelessWidget {
                 const SizedBox(
                   height: 20.0,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('data'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('data'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('data'),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('data'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('data'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('data'),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('data'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('data'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('data'),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                TypeSelector(),
                 const SizedBox(
                   height: 20.0,
                 ),
@@ -173,7 +140,7 @@ class Homepage extends StatelessWidget {
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 Align(
                   alignment: FractionalOffset.bottomCenter,
                   child: Column(
@@ -201,7 +168,9 @@ class Homepage extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            print(store.itemSelected.toList());
+                          },
                           child: const Text('Continue'),
                         ),
                       ),
@@ -214,5 +183,14 @@ class Homepage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void logoutUser(BuildContext context) async {
+    const storage = FlutterSecureStorage();
+    await storage.delete(key: 'token');
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => const LoginPage()));
   }
 }

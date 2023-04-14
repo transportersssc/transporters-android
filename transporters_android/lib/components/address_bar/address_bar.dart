@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:transporters_android/constants.dart';
 import 'autocomplete.dart';
 
 class AddressBar extends StatefulWidget {
@@ -37,7 +38,7 @@ class _AddressBarState extends State<AddressBar> {
               isFavorite ? Icons.star : Icons.star_border_outlined,
               color: isFavorite
                   ? Color.fromARGB(255, 255, 198, 54)
-                  : Theme.of(context).primaryColorDark,
+                  : primaryColor,
             ),
             onPressed: () {
               setState(() {

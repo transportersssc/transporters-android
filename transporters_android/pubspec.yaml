@@ -46,6 +46,11 @@ dependencies:
   firebase_messaging: ^14.4.0
   firebase_core: ^2.9.0
   flutter_local_notifications: ^13.0.0
+  mobx: ^2.1.4
+  mobx_codegen: ^2.2.0
+  flutter_mobx: ^2.0.6+5
+  build_runner: ^2.3.3
+  get_it: ^7.2.0
 
 dev_dependencies:
   flutter_test:
