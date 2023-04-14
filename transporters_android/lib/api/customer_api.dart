@@ -1,10 +1,11 @@
 import 'package:http/http.dart';
 
-void main(List<String> args) {
-  loginCustomer(email: "sumeet7@gmail.com", password: "Password@123");
+void main(List<String> args) async {
+  print(await loginCustomer(
+      email: "sumeet7@gmail.com", password: "Password@123"));
 }
 
-const urlPrefix = 'https://transporters-api-dev.up.railway.app/api';
+const urlPrefix = 'http://10.0.2.2:8080/api';
 
 // Register Customer
 Future<String> registerCustomer({
