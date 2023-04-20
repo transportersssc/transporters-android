@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:transporters_android/components/address_bar/address_bar.dart';
+import 'package:transporters_android/components/size_selector/size_selector.dart';
 import 'package:transporters_android/components/type_selector/type_selector.dart';
+import 'package:transporters_android/constants.dart';
 import 'package:transporters_android/stores/item_type_store.dart';
+import 'package:transporters_android/stores/place_order_store.dart';
+import 'package:transporters_android/stores/size_selector_store.dart';
 import 'package:transporters_android/views/login.dart';
+
+import 'confirmation_page.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -14,12 +21,18 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  final ItemTypeStore store = GetIt.instance<ItemTypeStore>();
+  final ItemTypeStore itemTypeStore = GetIt.instance<ItemTypeStore>();
+
+  final SizeSelectorStore sizeSelectorStore =
+      GetIt.instance<SizeSelectorStore>();
+
+  final PlaceOrderStore placeOrderStore = GetIt.instance<PlaceOrderStore>();
+
+  final fromController = TextEditingController();
+  final toController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height * 0.81;
-    final fromController = TextEditingController();
-    final toController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
@@ -34,8 +47,8 @@ class _HomepageState extends State<Homepage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.black,
-        selectedItemColor: Colors.deepPurple,
+        backgroundColor: secondaryColor,
+        selectedItemColor: primaryColor,
         unselectedItemColor: Colors.white,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -63,13 +76,17 @@ class _HomepageState extends State<Homepage> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                AddressBar(
-                  controller: fromController,
-                  title: "From",
+                Observer(
+                  builder: (_) => AddressBar(
+                    controller: fromController,
+                    title: "From",
+                  ),
                 ),
-                AddressBar(
-                  controller: toController,
-                  title: "To`",
+                Observer(
+                  builder: (_) => AddressBar(
+                    controller: toController,
+                    title: "To",
+                  ),
                 ),
                 const SizedBox(
                   height: 20.0,
@@ -102,44 +119,7 @@ class _HomepageState extends State<Homepage> {
                 const SizedBox(
                   height: 15.0,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    RawMaterialButton(
-                      onPressed: () {},
-                      elevation: 2.0,
-                      fillColor: Colors.grey,
-                      padding: const EdgeInsets.all(15.0),
-                      shape: const CircleBorder(),
-                      child: const Text(
-                        'S',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ),
-                    RawMaterialButton(
-                      onPressed: () {},
-                      elevation: 2.0,
-                      fillColor: Colors.grey,
-                      padding: const EdgeInsets.all(15.0),
-                      shape: const CircleBorder(),
-                      child: const Text(
-                        'M',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ),
-                    RawMaterialButton(
-                      onPressed: () {},
-                      elevation: 2.0,
-                      fillColor: Colors.grey,
-                      padding: const EdgeInsets.all(15.0),
-                      shape: const CircleBorder(),
-                      child: const Text(
-                        'L',
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ),
-                  ],
-                ),
+                SizeSelector(),
                 const Spacer(),
                 Align(
                   alignment: FractionalOffset.bottomCenter,
@@ -149,17 +129,19 @@ class _HomepageState extends State<Homepage> {
                         alignment: Alignment.centerRight,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               'Subtotal: ',
                               style: TextStyle(
                                 fontSize: 15.0,
                               ),
                             ),
-                            Text(
-                              '\$ 12.49',
-                              style: TextStyle(
-                                fontSize: 18.0,
+                            Observer(
+                              builder: (_) => const Text(
+                                'CAD\$ 0.0',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                ),
                               ),
                             ),
                           ],
@@ -168,8 +150,22 @@ class _HomepageState extends State<Homepage> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: primaryColor),
                           onPressed: () {
-                            print(store.itemSelected.toList());
+                            placeOrderStore.fromAddress = fromController.text;
+                            placeOrderStore.toAddress = toController.text;
+
+                            if (placeOrderStore.correctInputs()) {
+                              // Add API integration and navigation
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      ConfirmationScreen(),
+                                ),
+                              );
+                            }
                           },
                           child: const Text('Continue'),
                         ),

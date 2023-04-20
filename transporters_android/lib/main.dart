@@ -2,9 +2,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:transporters_android/constants.dart';
 import 'package:transporters_android/functions/firebase_services.dart';
 import 'package:transporters_android/functions/services.dart';
 import 'package:transporters_android/stores/item_type_store.dart';
+import 'package:transporters_android/stores/place_order_store.dart';
+import 'package:transporters_android/stores/size_selector_store.dart';
 import 'package:transporters_android/views/home_page.dart';
 
 import 'package:transporters_android/views/login.dart';
@@ -16,11 +19,13 @@ void main() async {
   await FirebaseService.initializeFirebaseMessaging();
   await FirebaseService.initializeFlutterLocalNotifications();
 
-  final storage = new FlutterSecureStorage();
+  const storage = FlutterSecureStorage();
   String? token = await storage.read(key: 'token');
 
   GetIt getIt = GetIt.instance;
   getIt.registerSingleton<ItemTypeStore>(ItemTypeStore());
+  getIt.registerSingleton<SizeSelectorStore>(SizeSelectorStore());
+  getIt.registerSingleton<PlaceOrderStore>(PlaceOrderStore());
 
   runApp(MyApp(
     token: token ?? '',
@@ -34,6 +39,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isLoggedIn = false;
+    print('Token is: $token');
     if (token != '') {
       isLoggedIn = true;
     } else {
@@ -48,8 +54,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       navigatorKey: navigatorKey,
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          color: Colors.purple[900],
+        appBarTheme: const AppBarTheme(
+          color: primaryColor,
         ),
       ),
       debugShowCheckedModeBanner: false,

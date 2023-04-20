@@ -20,7 +20,7 @@ class TypeSelector extends StatelessWidget {
               builder: (_) => ActionChip(
                 label: const Text('Food'),
                 backgroundColor:
-                    store.foodSelected ? primaryColor : Colors.grey,
+                    store.foodSelected ? primaryColor : secondaryColor,
                 labelStyle: TextStyle(
                     color: store.foodSelected ? Colors.white : Colors.black),
                 avatar: CircleAvatar(
@@ -43,7 +43,7 @@ class TypeSelector extends StatelessWidget {
               builder: (_) => ActionChip(
                 label: const Text('Medicines'),
                 backgroundColor:
-                    store.medicineSelected ? primaryColor : Colors.grey,
+                    store.medicineSelected ? primaryColor : secondaryColor,
                 labelStyle: TextStyle(
                     color:
                         store.medicineSelected ? Colors.white : Colors.black),
@@ -72,7 +72,7 @@ class TypeSelector extends StatelessWidget {
               builder: (_) => ActionChip(
                 label: const Text('Groceries'),
                 backgroundColor:
-                    store.grocerySelected ? primaryColor : Colors.grey,
+                    store.grocerySelected ? primaryColor : secondaryColor,
                 labelStyle: TextStyle(
                     color: store.grocerySelected ? Colors.white : Colors.black),
                 avatar: CircleAvatar(
@@ -96,7 +96,7 @@ class TypeSelector extends StatelessWidget {
               builder: (_) => ActionChip(
                 label: const Text('Documents'),
                 backgroundColor:
-                    store.documentSelected ? primaryColor : Colors.grey,
+                    store.documentSelected ? primaryColor : secondaryColor,
                 labelStyle: TextStyle(
                     color:
                         store.documentSelected ? Colors.white : Colors.black),
@@ -125,7 +125,7 @@ class TypeSelector extends StatelessWidget {
               builder: (_) => ActionChip(
                 label: const Text('Gifts'),
                 backgroundColor:
-                    store.giftSelected ? primaryColor : Colors.grey,
+                    store.giftSelected ? primaryColor : secondaryColor,
                 labelStyle: TextStyle(
                     color: store.giftSelected ? Colors.white : Colors.black),
                 avatar: CircleAvatar(
@@ -148,7 +148,7 @@ class TypeSelector extends StatelessWidget {
               builder: (_) => ActionChip(
                 label: const Text('Package'),
                 backgroundColor:
-                    store.packageSelected ? primaryColor : Colors.grey,
+                    store.packageSelected ? primaryColor : secondaryColor,
                 labelStyle: TextStyle(
                     color: store.packageSelected ? Colors.white : Colors.black),
                 avatar: CircleAvatar(

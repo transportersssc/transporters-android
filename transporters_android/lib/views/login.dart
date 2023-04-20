@@ -38,11 +38,11 @@ class _LoginPageState extends State<LoginPage> {
         .then((response) async {
       final decodedResponse = jsonDecode(response);
       if (decodedResponse['success']) {
-        final storage = new FlutterSecureStorage();
+        const storage = FlutterSecureStorage();
         await storage.write(key: 'token', value: decodedResponse['token']);
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => Homepage(),
+            builder: (context) => const Homepage(),
           ),
         );
       } else {
