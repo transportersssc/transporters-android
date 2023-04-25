@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:transporters_android/api/customer_api.dart';
+import 'package:transporters_android/constants.dart';
 
 import 'additional_details.dart';
 
@@ -195,6 +195,9 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                  ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       customerExist();

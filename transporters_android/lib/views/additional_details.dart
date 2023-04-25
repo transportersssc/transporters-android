@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:transporters_android/api/customer_api.dart';
+import 'package:transporters_android/constants.dart';
 import 'package:transporters_android/helpers/form_validation.dart';
 
 import 'home_page.dart';
@@ -143,6 +144,9 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                  ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       register();

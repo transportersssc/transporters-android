@@ -68,11 +68,6 @@ abstract class _PlaceOrderStore with Store {
       token: token!,
       originAddress: fromAddress,
       destinationAddress: toAddress,
-      originLatitude: fromLatitude,
-      originLongitude: fromLongitude,
-      destinationLatitude: toLatitude,
-      destinationLongitude: toLongitude,
-      distance: distance,
       packageType: packageType,
       packageSize: packageSize,
     );

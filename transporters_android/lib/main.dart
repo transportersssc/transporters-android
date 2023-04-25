@@ -5,10 +5,10 @@ import 'package:get_it/get_it.dart';
 import 'package:transporters_android/constants.dart';
 import 'package:transporters_android/functions/firebase_services.dart';
 import 'package:transporters_android/functions/services.dart';
+import 'package:transporters_android/home.dart';
 import 'package:transporters_android/stores/item_type_store.dart';
 import 'package:transporters_android/stores/place_order_store.dart';
 import 'package:transporters_android/stores/size_selector_store.dart';
-import 'package:transporters_android/views/home_page.dart';
 
 import 'package:transporters_android/views/login.dart';
 
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: isLoggedIn ? Homepage() : const LoginPage(),
+      home: isLoggedIn ? const Home() : const LoginPage(),
     );
   }
 }

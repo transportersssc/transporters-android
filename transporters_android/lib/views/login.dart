@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:transporters_android/api/customer_api.dart';
+import 'package:transporters_android/constants.dart';
 import 'package:transporters_android/views/home_page.dart';
 import 'package:transporters_android/views/signup.dart';
 
@@ -40,6 +41,8 @@ class _LoginPageState extends State<LoginPage> {
       if (decodedResponse['success']) {
         const storage = FlutterSecureStorage();
         await storage.write(key: 'token', value: decodedResponse['token']);
+        await storage.write(
+            key: 'refreshToken', value: decodedResponse['refreshToken']);
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => const Homepage(),
@@ -144,6 +147,9 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryColor,
+                      ),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           loginUser();
